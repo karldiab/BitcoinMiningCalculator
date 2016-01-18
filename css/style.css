@@ -69,3 +69,27 @@ ul.rel-results {
 .outer-p-3 {
   margin-top: 15px;
 }
+table,
+td, th {
+    border-collapse: collapse;
+    border: 1px black solid;
+    padding: 4px;
+    margin-left: 6px;
+    margin-right: 6px;
+}
+th {
+    background: #d0ffd0;
+}
+table {
+    margin: 10px;
+}
+td {
+    padding: 4px;
+}
+.negative {
+    color: red;
+}
+#myChart {
+    width: 400px;
+    height: 400px;
+}
