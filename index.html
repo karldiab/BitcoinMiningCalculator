@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" ng-app ng-controller="data">
+  <head>
+    <title ng-bind="'Fastr - ' + list.Title"></title>
+    <script src="js/angular.min.js"></script>
+    <script src="js/app.js"></script>
+    <link rel="stylesheet" href="css/animate.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+  </head>
+
+  <body>
+    <div class="container-fluid outerdiv">
+
+      
+      <noscript>
+        <div class="nojs">Javascript is either disabled or not supported in your browser. Please enable it or use a Javascript enabled browser.</div>
+      </noscript>
+      
+      <div  class="animated zoomInRight"> 
+
+        <br>
+
+        <div id="main-info" ng-show="search" class="col-md-8">
+            <div ng-if="!bitcoinStats">
+            Loading network data..
+            </div>
+
+            <div ng-if="bitcoinStats">
+            <strong>Released on:</strong> {{ bitcoinStats.difficulty }}<br><br>
+            </div>
+        </div>
+           <div id="userInput">
+<form>
+    <table>
+    <tr>
+        <th>Your Hashrate:</th>
+        <td>
+            <input type="text" onchange="computeProfits()" id="userHash" placeholder="your hashrate GH/s" /> GH/s
+        </td>
+    </tr>
+    <tr>
+        <th>Network Difficulty:</th>
+        <td><input type="text" ng-model="difficulty" id="difficulty"/></td>
+    </tr>
+    <tr>
+        <th>BTC Price:</th>
+        <td><input type="text" ng-model="price" id="price"/> USD</td>
+    </tr>
+    <tr>
+        <th>Block Reward:</th>
+        <td><input type="text" id="reward"/> BTC</td>
+    </tr>
+</table>
+</form>
+           </div>
+      </div>
+    </div>
+  </body>
+</html>
