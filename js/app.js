@@ -96,14 +96,12 @@ function data($scope, $http) {
         $scope.values[4] = [$scope.earnings.profitHour];
         $scope.earnings.hourGrossBTCNext = $scope.earnings.hourGrossBTC*(1-($scope.nextDifficulty/100));
         $scope.values[5] = [$scope.earnings.hourGrossBTCNext];
-        console.log($scope.values[5]);
         $scope.earnings.hourGrossUSDNext = $scope.earnings.hourGrossBTCNext*$scope.price;
         $scope.values[6] = [$scope.earnings.hourGrossUSDNext];
         $scope.earnings.poolCostHourNext = ($scope.earnings.hourGrossUSDNext*($scope.poolFee/100));
         $scope.values[7] = [$scope.earnings.poolCostHourNext];
         $scope.earnings.profitHourNext = (($scope.earnings.hourGrossUSDNext - $scope.earnings.powerCostHour) - $scope.earnings.poolCostHourNext);
         $scope.values[8] = [$scope.earnings.profitHourNext];
-        console.log($scope.values[8]);
         //this loop is to create and store all of the profit values as hourly, daily, weekly and monthly
         for (var i = 0; i < $scope.values.length; i++) {
             //earnings/costs per day
@@ -122,9 +120,11 @@ function data($scope, $http) {
     for (var i = 0; i <= $scope.timeFrame; i++) {
         labels[i] = i;
         if (i > 0) {
+            console.log("diff factor " + i + " " + rollingDiffFactor);
             profit[i] = profit[i-1] + 2*(rollingDiffFactor*$scope.values[1][2] - $scope.values[2][2]);
-            rollingDiffFactor *= rollingDiffFactor;
+            rollingDiffFactor *= (1-($scope.nextDifficulty/100));
             profit[i] += + 2*(rollingDiffFactor*$scope.values[1][2] - $scope.values[2][2]);
+            console.log("profit " + i + " " + profit[i]);
         }
     }
     
@@ -133,28 +133,31 @@ function data($scope, $http) {
     datasets: [
         {
             label: "Profit",
-            fillColor: "rgba(255,0,0,0.2)",
-            strokeColor: "rgba(255,0,0,0.2)",
-            pointColor: "rgba(255,0,0,0.2)",
-            pointStrokeColor: "#f00",
-            pointHighlightFill: "#f00",
-            pointHighlightStroke: "rgba(255,0,0,0.2)",
+            fillColor: "rgba(0,0,0,0.2)",
+            strokeColor: "rgba(0,0,0,1)",
+            pointColor: "rgba(0,0,0,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(151,187,205,1)",
             data: profit
         }
     ]
 };
 var options = {
-		xAxes: [{
-			display: false
-		}]
 };
-
-var ctx = $("#myChart").get(0).getContext("2d");
-var myLineChart = new Chart(ctx, {
-	type: 'line',
-	data: data,
-	options:  options
-	
-});
+    if (typeof $scope.myLineChart == "undefined") {
+        ctx = document.getElementById("myChart").getContext("2d");
+        /*myLineChart = new Chart(ctx, {
+            type: 'line',
+            data: data,
+            options: options	
+        });*/
+        $scope.myLineChart = new Chart(ctx).Line(data, options);
+    } else {
+        for (var i = 0; i < profit.length;i++) {
+            $scope.myLineChart.datasets[0].points[i].value = profit[i];
+        }
+        $scope.myLineChart.update();
+    }
   }
 }

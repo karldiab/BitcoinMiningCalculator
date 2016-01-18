@@ -1,9 +1,9 @@
 body {
-  background: url(../images/bg-sky.png);
-  background-repeat: repeat !important;
-  background-attachment: fixed;
+  background-color: white;
 }
-
+h2 {
+    text-align: center;
+}
 ul.rel-results {
   list-style-type:circle;
 }
@@ -89,7 +89,8 @@ td {
 .negative {
     color: red;
 }
-#myChart {
-    width: 400px;
-    height: 400px;
+#chartContainer {
+    text-align: center;
+    height: 500px;
+    background-color: #cccccc;
 }

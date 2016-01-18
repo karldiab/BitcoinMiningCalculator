@@ -16,6 +16,7 @@
   </head>
 
 <body>
+    <h2>Bitcoin Mining Calculator</h2>
     <div class="container-fluid outerdiv">
         <div class="row">
             <div class="animated zoomInRight col-md-6">
@@ -167,10 +168,16 @@
                 </table>
                 </div>
             </div>
-            <div class="col-md-6">
-                <canvas id="myChart" width="250" height="250"></canvas><br/>
+            <div class="col-md-6" id="chartContainer">
+                <div id="chartNotReady" ng-hide="myLineChart">
+                    <h3>Enter hashrate data for Profit Chart!</h3>
+                </div>
+                <div  ng-show="myLineChart">
+                <h3>Total Profit ({{currency}})</h3>
+                <canvas id="myChart" width="400" height="400"></canvas><br/>
                 Time Frame:
                 <input type="text" ng-model="timeFrame" size="4" ng-init="timeFrame = 12" ng-change="drawChart()"/> Months
+                </div>
             </div>
         </div>
     </div>
