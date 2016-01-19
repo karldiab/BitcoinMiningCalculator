@@ -2,7 +2,6 @@
 <html lang="en" ng-app ng-controller="data">
   <head>
     <title>Bitcoin Mining Calculator</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="js/angular.min.js"></script>
     <script src="js/app.js"></script>
     <script src="js/Chart.min.js"></script>
@@ -19,7 +18,7 @@
     <div class="container">  
         <div id="header">
             <a href="http://www.karldiab.com"><img align="right" src="images/logo75.png" alt="KarlDiab Logo"/></a>
-            <h2>Bitcoin Mining Calculator</h2>
+            <h1>Bitcoin Mining Calculator</h1>
         </div>
         <div class="row">
             <div class="animated zoomInRight col-md-6">
@@ -27,7 +26,8 @@
                         <tr>
                             <th>Your Hashrate:</th>
                             <td>
-                                <input type="text" ng-model="userHash" ng-change="computeProfits()" placeholder="Enter Hashrate" />
+                                <input type="text" id="userHash" ng-model="userHash" name="userHash"
+                                ng-change="computeProfits()" placeholder="Enter Hashrate" />
                                 <select ng-model="userHashSuffix" ng-change="computeProfits()">
                                 <option value="GH" selected="selected" ng-init="userHashSuffix = 'GH'">GH/s</option>
                                 <option value="TH">TH/s</option>
@@ -71,7 +71,7 @@
                         </tr>
                         <tr>
                             <th>Difficulty Increase</th>
-                            <td><input type="text" ng-model="nextDifficulty" ng-change="computeProfits()" ng-init="nextDifficulty = 10"/> %</td>
+                            <td><input type="text" ng-model="nextDifficulty" ng-change="computeProfits()" ng-init="nextDifficulty = 5"/> %</td>
                         </tr>
                     </table>
                     <h2>This Difficulty</h2>
@@ -171,7 +171,7 @@
             </div>
             <div class="col-md-6 animated fadeIn" id="chartContainer">
                 <div id="chartNotReady" ng-hide="myLineChart">
-                    <h3>Enter hashrate data for Profit Chart!</h3>
+                    <h3>Enter hashrate data for responsive chart!</h3>
                 </div>
                 <div  ng-show="myLineChart">
                 <h3>Total Profit ({{currency}})</h3>
@@ -182,8 +182,10 @@
             </div>
         </div>
         <div id="authorInfo">
-            <a href="https://www.youtube.com/watch?v=Um63OQz3bjo"><button class="btn btn-warning btn-sm">What Is Bitcoin?</button></a></br>
-            Written by Karl Diab using AngularJS. The utility fetches live Bitcoin network & price data from bitcoin.toshi.io and bitcoinaverage.com</br>
+
+            <strong>Written by Karl Diab using AngularJS and Chart.js. The utility fetches live 
+                Bitcoin network & price data from bitcoin.toshi.io and bitcoinaverage.com</strong></br>
+            <a href="https://www.youtube.com/watch?v=Um63OQz3bjo"><button class="btn btn-warning btn-sm">What Is Bitcoin?</button></a>
             <a href="http://www.karldiab.com"><button class="btn btn-success btn-sm">Website</button></a>
             <a href="https://github.com/karldiab/BitcoinMiningCalculator"><button class="btn btn-primary btn-sm">Source Code</button></a>
         </div>

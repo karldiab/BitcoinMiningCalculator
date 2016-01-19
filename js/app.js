@@ -1,73 +1,72 @@
 
 function data($scope, $http) {
-  // when the page loads for the first time
-  if($scope.search == undefined) {
-    $scope.search = "hi";
-    $scope.currency = "USD";
-    fetch();
-  }
-
-  var pendingTask;
-
-  // will load results when the string in search box changes
-  $scope.change = function() {
-    if(pendingTask) {
-      clearTimeout(pendingTask);
+    // when the page loads for the first time
+    if($scope.search == undefined) {
+        $scope.search = "hi";
+        $scope.currency = "USD";
+        fetch();
     }
-    pendingTask = setTimeout(fetch, 800);
-  };
-
-  $scope.update = function() {
-    $scope.search = $scope.others.Search[index].Title;
-  	$scope.change();
-  };
-
-  $scope.select = function() {
-    this.setSelectionRange(0, this.value.length);
-  }
-  $scope.earnings = {};
-  $scope.values = [];
-
-  function fetch() {
-    $http.get("https://bitcoin.toshi.io/api/v0/blocks/latest")
-     .success(function(response) {
-         $scope.bitcoinStats = response;
-         $scope.difficulty = response.difficulty.toFixed(0);
-         $scope.reward = response.reward/1E8;
-     });
-     //finding average price between 3 high volume exchanges.
-    $http.get("https://api.bitcoinaverage.com/exchanges/USD")
-     .success(function(response) {
-         $scope.priceBitfinex = response.bitfinex.rates.last;
-         $scope.priceBitStamp = response.bitstamp.rates.last;
-         $scope.pricebtce = response.btce.rates.last;
-         $scope.price = (($scope.priceBitfinex + $scope.priceBitStamp + $scope.pricebtce) /3).toFixed(2);
-     });
-  }
-  $scope.fetchPriceOnly = function() {
-     //finding average price between 3 high volume exchanges.
-    $http.get("https://api.bitcoinaverage.com/exchanges/" + $scope.currency)
-     .success(function(response) {
-         if ($scope.currency == "USD") {
+    
+    var pendingTask;
+    
+    // will load results when the string in search box changes
+    $scope.change = function() {
+        if(pendingTask) {
+            clearTimeout(pendingTask);
+        }
+        pendingTask = setTimeout(fetch, 800);
+    };
+    $scope.update = function() {
+        $scope.search = $scope.others.Search[index].Title;
+        $scope.change();
+    };
+    $scope.select = function() {
+        this.setSelectionRange(0, this.value.length);
+    }
+    $scope.earnings = {};
+    $scope.values = [];
+    //function that grabs api data from the net
+    function fetch() {
+        $http.get("https://bitcoin.toshi.io/api/v0/blocks/latest")
+        .success(function(response) {
+            $scope.bitcoinStats = response;
+            $scope.difficulty = response.difficulty.toFixed(0);
+            $scope.reward = response.reward/1E8;
+        });
+        //finding average price between 3 high volume exchanges.
+        $http.get("https://api.bitcoinaverage.com/exchanges/USD")
+        .success(function(response) {
             $scope.priceBitfinex = response.bitfinex.rates.last;
             $scope.priceBitStamp = response.bitstamp.rates.last;
             $scope.pricebtce = response.btce.rates.last;
             $scope.price = (($scope.priceBitfinex + $scope.priceBitStamp + $scope.pricebtce) /3).toFixed(2);
-            $scope.computeProfits();
-         }
-         if ($scope.currency == "CNY") {
-            $scope.price = response.btc38.rates.last.toFixed(2);
-            $scope.computeProfits();
-         }
-         if ($scope.currency == "CAD") {
-            $scope.priceQuadrigacx = response.quadrigacx.rates.last;
-            $scope.priceCavirtex = response.cavirtex.rates.last;
-            $scope.priceCoinbase = response.coinbase.rates.last;
-            $scope.price = (($scope.priceQuadrigacx + $scope.priceCavirtex + $scope.priceCoinbase) /3).toFixed(2);
-            $scope.computeProfits();
-         }
-     });
-  }
+        });
+    }
+    //this function grabs price data only when the currency is changed
+    $scope.fetchPriceOnly = function() {
+        //finding average price between 3 high volume exchanges.
+        $http.get("https://api.bitcoinaverage.com/exchanges/" + $scope.currency)
+        .success(function(response) {
+            if ($scope.currency == "USD") {
+                $scope.priceBitfinex = response.bitfinex.rates.last;
+                $scope.priceBitStamp = response.bitstamp.rates.last;
+                $scope.pricebtce = response.btce.rates.last;
+                $scope.price = (($scope.priceBitfinex + $scope.priceBitStamp + $scope.pricebtce) /3).toFixed(2);
+                $scope.computeProfits();
+            }
+            if ($scope.currency == "CNY") {
+                $scope.price = response.btc38.rates.last.toFixed(2);
+                $scope.computeProfits();
+            }
+            if ($scope.currency == "CAD") {
+                $scope.priceQuadrigacx = response.quadrigacx.rates.last;
+                $scope.priceCavirtex = response.cavirtex.rates.last;
+                $scope.priceCoinbase = response.coinbase.rates.last;
+                $scope.price = (($scope.priceQuadrigacx + $scope.priceCavirtex + $scope.priceCoinbase) /3).toFixed(2);
+                $scope.computeProfits();
+            }
+        });
+    }
   /*Function that calculates the profits of the user in bitcoin.*/
   $scope.computeProfits = function() {  
         if ($scope.userHashSuffix == "GH") {
@@ -84,6 +83,7 @@ function data($scope, $http) {
         } else {
             $scope.userPowerSuffixMult = 1;
         }
+        //long block of math logic to find the hourly rates of gross earnings, power costs, pool fees, and profit
         $scope.earnings.hourGrossBTC = ($scope.userHash/(65536*65536*$scope.difficulty))*$scope.reward*3600*$scope.userHashSuffixMult;
         $scope.values[0] = [$scope.earnings.hourGrossBTC];
         $scope.earnings.hourGrossUSD = $scope.earnings.hourGrossBTC*$scope.price;
@@ -113,16 +113,19 @@ function data($scope, $http) {
         }
         $scope.drawChart();
   }
+    //function responsible for creating chart data and drawing chart
     $scope.drawChart = function(drawNew) {
         var labels = [];
         $scope.profit = [0];
+        var profitsConstant = $scope.values[1][2] - $scope.values[2][2] - $scope.values[3][2];
         var rollingDiffFactor = (1-($scope.nextDifficulty/100));
         for (var i = 0; i <= $scope.timeFrame; i++) {
             labels[i] = i;
             if (i > 0) {
-                $scope.profit[i] = $scope.profit[i-1] + 2*(rollingDiffFactor*$scope.values[1][2] - $scope.values[2][2]);
+                //profit logic
+                $scope.profit[i] = $scope.profit[i-1] + 2*(rollingDiffFactor*profitsConstant);
                 rollingDiffFactor *= (1-($scope.nextDifficulty/100));
-                $scope.profit[i] += + 2*(rollingDiffFactor*$scope.values[1][2] - $scope.values[2][2]);
+                $scope.profit[i] += + 2*(rollingDiffFactor*profitsConstant);
             }
         }
         var data = {
@@ -140,6 +143,7 @@ function data($scope, $http) {
             }]
         };
         var options = {};
+        //if the chart object doesn't exist yet, OR a complete redraw was called. Create new chart object
         if (typeof $scope.myLineChart == "undefined" || drawNew) {
             ctx = document.getElementById("myChart").getContext("2d");
             $scope.myLineChart = new Chart(ctx).Line(data, options);
@@ -150,6 +154,8 @@ function data($scope, $http) {
             $scope.myLineChart.update();
         }
     }
+    //Function that is called when user changes the number of months are to be included in the chart
+    //destroys all old chart data then calls the drawChart function to create new data
     $scope.changeAxis = function() {
         $scope.myLineChart.destroy();
         $scope.drawChart(true);
