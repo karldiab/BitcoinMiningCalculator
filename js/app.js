@@ -117,15 +117,14 @@ function data($scope, $http) {
     $scope.drawChart = function(drawNew) {
         var labels = [];
         $scope.profit = [0];
-        var costsConstant = $scope.values[2][2] + $scope.values[3][2];
         var rollingDiffFactor = (1-($scope.nextDifficulty/100));
         for (var i = 0; i <= $scope.timeFrame; i++) {
             labels[i] = i;
             if (i > 0) {
                 //profit logic
-                $scope.profit[i] = $scope.profit[i-1] + 2*(rollingDiffFactor*$scope.values[1][2] - costsConstant );
+                $scope.profit[i] = $scope.profit[i-1] + 2*(rollingDiffFactor*$scope.values[1][2] - rollingDiffFactor*$scope.values[3][2] - $scope.values[2][2]);
                 rollingDiffFactor *= (1-($scope.nextDifficulty/100));
-                $scope.profit[i] += + 2*(rollingDiffFactor*$scope.values[1][2] - costsConstant );
+                $scope.profit[i] += + 2*(rollingDiffFactor*$scope.values[1][2] - rollingDiffFactor*$scope.values[3][2] - $scope.values[2][2]);
             }
         }
         var data = {
