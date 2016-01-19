@@ -113,51 +113,45 @@ function data($scope, $http) {
         }
         $scope.drawChart();
   }
-  $scope.drawChart = function() {
-    var labels = [];
-    var profit = [0];
-    var rollingDiffFactor = (1-($scope.nextDifficulty/100));
-    for (var i = 0; i <= $scope.timeFrame; i++) {
-        labels[i] = i;
-        if (i > 0) {
-            console.log("diff factor " + i + " " + rollingDiffFactor);
-            profit[i] = profit[i-1] + 2*(rollingDiffFactor*$scope.values[1][2] - $scope.values[2][2]);
-            rollingDiffFactor *= (1-($scope.nextDifficulty/100));
-            profit[i] += + 2*(rollingDiffFactor*$scope.values[1][2] - $scope.values[2][2]);
-            console.log("profit " + i + " " + profit[i]);
+    $scope.drawChart = function(drawNew) {
+        var labels = [];
+        $scope.profit = [0];
+        var rollingDiffFactor = (1-($scope.nextDifficulty/100));
+        for (var i = 0; i <= $scope.timeFrame; i++) {
+            labels[i] = i;
+            if (i > 0) {
+                $scope.profit[i] = $scope.profit[i-1] + 2*(rollingDiffFactor*$scope.values[1][2] - $scope.values[2][2]);
+                rollingDiffFactor *= (1-($scope.nextDifficulty/100));
+                $scope.profit[i] += + 2*(rollingDiffFactor*$scope.values[1][2] - $scope.values[2][2]);
+            }
+        }
+        var data = {
+                labels: labels,
+                datasets: [
+            {
+                label: "Profit",
+                fillColor: "rgba(0,0,0,0.2)",
+                strokeColor: "rgba(0,0,0,1)",
+                pointColor: "rgba(0,0,0,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(151,187,205,1)",
+                data: $scope.profit
+            }]
+        };
+        var options = {};
+        if (typeof $scope.myLineChart == "undefined" || drawNew) {
+            ctx = document.getElementById("myChart").getContext("2d");
+            $scope.myLineChart = new Chart(ctx).Line(data, options);
+        } else {
+            for (var i = 0; i < $scope.profit.length;i++) {
+                $scope.myLineChart.datasets[0].points[i].value = $scope.profit[i];
+            }
+            $scope.myLineChart.update();
         }
     }
-    
-    var data = {
-    labels: labels,
-    datasets: [
-        {
-            label: "Profit",
-            fillColor: "rgba(0,0,0,0.2)",
-            strokeColor: "rgba(0,0,0,1)",
-            pointColor: "rgba(0,0,0,1)",
-            pointStrokeColor: "#fff",
-            pointHighlightFill: "#fff",
-            pointHighlightStroke: "rgba(151,187,205,1)",
-            data: profit
-        }
-    ]
-};
-var options = {
-};
-    if (typeof $scope.myLineChart == "undefined") {
-        ctx = document.getElementById("myChart").getContext("2d");
-        /*myLineChart = new Chart(ctx, {
-            type: 'line',
-            data: data,
-            options: options	
-        });*/
-        $scope.myLineChart = new Chart(ctx).Line(data, options);
-    } else {
-        for (var i = 0; i < profit.length;i++) {
-            $scope.myLineChart.datasets[0].points[i].value = profit[i];
-        }
-        $scope.myLineChart.update();
+    $scope.changeAxis = function() {
+        $scope.myLineChart.destroy();
+        $scope.drawChart(true);
     }
-  }
 }

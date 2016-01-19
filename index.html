@@ -16,16 +16,18 @@
   </head>
 
 <body>
-    <h2>Bitcoin Mining Calculator</h2>
-    <div class="container-fluid outerdiv">
+    <div class="container">  
+        <div id="header">
+            <a href="http://www.karldiab.com"><img align="right" src="images/logo75.png" alt="KarlDiab Logo"/></a>
+            <h2>Bitcoin Mining Calculator</h2>
+        </div>
         <div class="row">
             <div class="animated zoomInRight col-md-6">
-                <div id="userInput">
                     <table>
                         <tr>
                             <th>Your Hashrate:</th>
                             <td>
-                                <input type="text" ng-model="userHash" ng-change="computeProfits()" placeholder="your hashrate GH/s" />
+                                <input type="text" ng-model="userHash" ng-change="computeProfits()" placeholder="Enter Hashrate" />
                                 <select ng-model="userHashSuffix" ng-change="computeProfits()">
                                 <option value="GH" selected="selected" ng-init="userHashSuffix = 'GH'">GH/s</option>
                                 <option value="TH">TH/s</option>
@@ -166,9 +168,8 @@
                         </tr>
                     </tbody>
                 </table>
-                </div>
             </div>
-            <div class="col-md-6" id="chartContainer">
+            <div class="col-md-6 animated fadeIn" id="chartContainer">
                 <div id="chartNotReady" ng-hide="myLineChart">
                     <h3>Enter hashrate data for Profit Chart!</h3>
                 </div>
@@ -176,10 +177,18 @@
                 <h3>Total Profit ({{currency}})</h3>
                 <canvas id="myChart" width="400" height="400"></canvas><br/>
                 Time Frame:
-                <input type="text" ng-model="timeFrame" size="4" ng-init="timeFrame = 12" ng-change="drawChart()"/> Months
+                <input type="text" ng-model="timeFrame" size="4" ng-init="timeFrame = 12" ng-change="changeAxis()"/> Months
                 </div>
             </div>
+        </div>
+        <div id="authorInfo">
+            <a href="https://www.youtube.com/watch?v=Um63OQz3bjo"><button class="btn btn-warning btn-sm">What Is Bitcoin?</button></a></br>
+            Written by Karl Diab using AngularJS. The utility fetches live Bitcoin network & price data from bitcoin.toshi.io and bitcoinaverage.com</br>
+            <a href="http://www.karldiab.com"><button class="btn btn-success btn-sm">Website</button></a>
+            <a href="https://github.com/karldiab/BitcoinMiningCalculator"><button class="btn btn-primary btn-sm">Source Code</button></a>
         </div>
     </div>
 </body>
 </html>
+
+

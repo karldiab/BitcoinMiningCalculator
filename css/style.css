@@ -4,87 +4,24 @@ body {
 h2 {
     text-align: center;
 }
-ul.rel-results {
-  list-style-type:circle;
-}
 
-.nojs {
-  padding:2px;
-  padding-left:6px;
-  margin-bottom:5px;
-  background:#ff0000;
-  color:#ffffff;
-  font-size:15px;
-  border:1px solid #ff0000;
-  border-radius:5px;
-}
-
-.outerdiv {
-  margin-top:60px;
-}
-
-.span-style {
-  font-size:17px;
-}
-
-.search-bar {
-  width:100%;
-  max-width:500px;
-}
-
-.bar-style {
-  background: #337AB7;
-  color: rgb(250,250,250);
-}
-
-.related-results {
-  -moz-animation-delay: 1.5s;
-  -webkit-animation-delay: 1.5s;
-}
-
-.movie-poster {
-  float:left;
-  width: 150px;
-  margin-right: 10px;
-  -moz-animation-delay: 1s;
-  -webkit-animation-delay: 1s;
-}
-
-.span-outer {
-  font-size:20px;
-}
-
-.outer-p {
-  margin-top: 10px;
-}
-
-.inner-p {
-  margin:2px;
-}
-
-.outer-p-2 {
-  margin-top: 5px;
-}
-
-.outer-p-3 {
-  margin-top: 15px;
-}
-table,
-td, th {
+table {
     border-collapse: collapse;
-    border: 1px black solid;
-    padding: 4px;
-    margin-left: 6px;
-    margin-right: 6px;
+    border: 1px white solid;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
 }
 th {
-    background: #d0ffd0;
+    background: #ccc;
+    text-align: right;
+    border: 1px white solid;
 }
 table {
     margin: 10px;
 }
 td {
-    padding: 4px;
+    border: 1px white solid;
 }
 .negative {
     color: red;
@@ -93,4 +30,12 @@ td {
     text-align: center;
     height: 500px;
     background-color: #cccccc;
+}
+#header {
+  height: 75px;
+  margin-bottom: 5px;
+}
+#authorInfo {
+    text-align: center;
+    padding-top: 20px;
 }
