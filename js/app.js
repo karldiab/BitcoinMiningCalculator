@@ -110,6 +110,8 @@ function data($scope, $http) {
             $scope.values[i][2] = $scope.values[i][1] * 7;
             //earnings/costs per month
             $scope.values[i][3] = $scope.values[i][1] * 30;
+            //earnings/costs per year
+            $scope.values[i][4] = $scope.values[i][1] * 365;
         }
         //conditional that prevents the program from drawing the chart before all the required data has been collected
         if (typeof $scope.userHash !== "undefined" && typeof $scope.reward !== "undefined" && typeof 

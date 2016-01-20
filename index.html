@@ -116,6 +116,13 @@
                             <td>{{values[2][3]|currency}}</td>
                             <td>{{values[3][3]|currency}}</td>
                             <td ng-class="{negative: values[4][3] < 0}">{{values[4][3]|currency}}</td>
+                        <tr>
+                            <td>Annually</td>
+                            <td>{{values[0][4]|number:6}}</td>
+                            <td>{{values[1][4]|currency}}</td>
+                            <td>{{values[2][4]|currency}}</td>
+                            <td>{{values[3][4]|currency}}</td>
+                            <td ng-class="{negative: values[4][4] < 0}">{{values[4][4]|currency}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -163,6 +170,14 @@
                             <td>{{values[2][3]|currency}}</td>
                             <td>{{values[7][3]|currency}}</td>
                             <td ng-class="{negative: values[8][3] < 0}">{{values[8][3]|currency}}</td>
+                        </tr>
+                        <tr>
+                            <td>Annually</td>
+                            <td>{{values[5][4]|number:6}}</td>
+                            <td>{{values[6][4]|currency}}</td>
+                            <td>{{values[2][4]|currency}}</td>
+                            <td>{{values[7][4]|currency}}</td>
+                            <td ng-class="{negative: values[8][4] < 0}">{{values[8][4]|currency}}</td>
                         </tr>
                     </tbody>
                 </table>
