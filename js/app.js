@@ -30,7 +30,7 @@ function data($scope, $http) {
         $http.get("https://bitcoin.toshi.io/api/v0/blocks/latest")
         .success(function(response) {
             $scope.bitcoinStats = response;
-            $scope.difficulty = response.difficulty.toFixed(0);
+            $scope.difficulty = parseFloat(response.difficulty.toFixed(0));
             $scope.reward = response.reward/1E8;
         });
         //finding average price between 3 high volume exchanges.
@@ -39,7 +39,7 @@ function data($scope, $http) {
             $scope.priceBitfinex = response.bitfinex.rates.last;
             $scope.priceBitStamp = response.bitstamp.rates.last;
             $scope.pricebtce = response.btce.rates.last;
-            $scope.price = (($scope.priceBitfinex + $scope.priceBitStamp + $scope.pricebtce) /3).toFixed(2);
+            $scope.price = parseFloat((($scope.priceBitfinex + $scope.priceBitStamp + $scope.pricebtce) /3).toFixed(2));
         });
     }
     //this function grabs price data only when the currency is changed
@@ -51,18 +51,18 @@ function data($scope, $http) {
                 $scope.priceBitfinex = response.bitfinex.rates.last;
                 $scope.priceBitStamp = response.bitstamp.rates.last;
                 $scope.pricebtce = response.btce.rates.last;
-                $scope.price = (($scope.priceBitfinex + $scope.priceBitStamp + $scope.pricebtce) /3).toFixed(2);
+                $scope.price = parseFloat((($scope.priceBitfinex + $scope.priceBitStamp + $scope.pricebtce) /3).toFixed(2));
                 $scope.computeProfits();
             }
             if ($scope.currency == "CNY") {
-                $scope.price = response.btc38.rates.last.toFixed(2);
+                $scope.price = parseFloat(response.btc38.rates.last.toFixed(2));
                 $scope.computeProfits();
             }
             if ($scope.currency == "CAD") {
                 $scope.priceQuadrigacx = response.quadrigacx.rates.last;
                 $scope.priceCavirtex = response.cavirtex.rates.last;
                 $scope.priceCoinbase = response.coinbase.rates.last;
-                $scope.price = (($scope.priceQuadrigacx + $scope.priceCavirtex + $scope.priceCoinbase) /3).toFixed(2);
+                $scope.price = parseFloat((($scope.priceQuadrigacx + $scope.priceCavirtex + $scope.priceCoinbase) /3).toFixed(2));
                 $scope.computeProfits();
             }
         });
@@ -94,7 +94,7 @@ function data($scope, $http) {
         $scope.values[3] = [$scope.earnings.poolCostHour];
         $scope.earnings.profitHour = (($scope.earnings.hourGrossUSD - $scope.earnings.powerCostHour) - $scope.earnings.poolCostHour);
         $scope.values[4] = [$scope.earnings.profitHour];
-        $scope.earnings.hourGrossBTCNext = $scope.earnings.hourGrossBTC*(1-($scope.nextDifficulty/100));
+        $scope.earnings.hourGrossBTCNext = $scope.earnings.hourGrossBTC/(1+($scope.nextDifficulty/100));
         $scope.values[5] = [$scope.earnings.hourGrossBTCNext];
         $scope.earnings.hourGrossUSDNext = $scope.earnings.hourGrossBTCNext*$scope.price;
         $scope.values[6] = [$scope.earnings.hourGrossUSDNext];
@@ -113,7 +113,7 @@ function data($scope, $http) {
             //earnings/costs per year
             $scope.values[i][4] = $scope.values[i][1] * 365;
         }
-        //conditional that prevents the program from drawing the chart before all the required data has been collected
+        /*conditional that prevents the program from drawing the chart before all the required data has been collected*/
         if (typeof $scope.userHash !== "undefined" && typeof $scope.reward !== "undefined" && typeof 
         $scope.price !== "undefined" && typeof $scope.difficulty !== "undefined") {
             $scope.drawChart();
@@ -123,14 +123,15 @@ function data($scope, $http) {
     $scope.drawChart = function(drawNew) {
         var labels = [];
         $scope.profit = [0];
-        var rollingDiffFactor = (1-($scope.nextDifficulty/100));
+        var rollingDiffFactor = 1/(1+($scope.nextDifficulty/100));
         for (var i = 0; i <= $scope.timeFrame; i++) {
-            labels[i] = i;
+            labels[i] = i + (i == 1? " Month" : " Months");
             if (i > 0) {
                 //profit logic
                 $scope.profit[i] = $scope.profit[i-1] + 2*(rollingDiffFactor*$scope.values[1][2] - rollingDiffFactor*$scope.values[3][2] - $scope.values[2][2]);
-                rollingDiffFactor *= (1-($scope.nextDifficulty/100));
+                rollingDiffFactor *= 1/(1+($scope.nextDifficulty/100));
                 $scope.profit[i] += + 2*(rollingDiffFactor*$scope.values[1][2] - rollingDiffFactor*$scope.values[3][2] - $scope.values[2][2]);
+                $scope.profit[i] =  parseFloat($scope.profit[i].toFixed(2));
             }
         }
         var data = {
@@ -147,7 +148,19 @@ function data($scope, $http) {
                 data: $scope.profit
             }]
         };
-        var options = {};
+        //logic to ensure the tooltips detect radius isn't too large when many points are present
+        if ($scope.timeFrame <= 15) {
+            var detectRadius = 8;
+        } else if ($scope.timeFrame > 15 && $scope.timeFrame <= 23) {
+            var detectRadius = 5;
+        } else if ($scope.timeFrame > 23 && $scope.timeFrame <= 30) {
+            var detectRadius = 3;
+        } else {
+            var detectRadius = 1;
+        }
+        var options = {
+            pointHitDetectionRadius : detectRadius
+        };
         //if the chart object doesn't exist yet, OR a complete redraw was called. Create new chart object
         if (typeof $scope.myLineChart == "undefined" || drawNew) {
             ctx = document.getElementById("myChart").getContext("2d");

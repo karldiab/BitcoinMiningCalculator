@@ -29,7 +29,8 @@ td {
 }
 #chartContainer {
     text-align: center;
-    height: 500px;
+    height: 550px;
+    padding: 7px;
     background-color: #cccccc;
 }
 #header {
@@ -39,4 +40,7 @@ td {
 #authorInfo {
     text-align: center;
     padding-top: 20px;
+}
+#axisChange {
+    width: 50px;
 }
