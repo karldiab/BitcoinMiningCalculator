@@ -111,7 +111,11 @@ function data($scope, $http) {
             //earnings/costs per month
             $scope.values[i][3] = $scope.values[i][1] * 30;
         }
-        $scope.drawChart();
+        //conditional that prevents the program from drawing the chart before all the required data has been collected
+        if (typeof $scope.userHash !== "undefined" && typeof $scope.reward !== "undefined" && typeof 
+        $scope.price !== "undefined" && typeof $scope.difficulty !== "undefined") {
+            $scope.drawChart();
+        }
   }
     //function responsible for creating chart data and drawing chart
     $scope.drawChart = function(drawNew) {
