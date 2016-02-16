@@ -2,6 +2,11 @@
 <html lang="en" ng-app ng-controller="data">
   <head>
     <title>Bitcoin Mining Calculator</title>
+    <meta name="description" content="An easy to use utility used to calculate a Bitcoin miner's potential profits in BTC and multiple fiat
+                                currencies. The calculator fetches price and Bitcoin network data from the internet
+                                 and only requires the hash rate (speed of mining) from the user. A projected future profit
+                                  chart is created dynamically and displayed instantly.">
+    <meta name="keywords" content="Bitcoin,Mining,Profitability,Calculator,AngularJS,AJAX,currency,money,profit,finance,cryptocurrency">
     <script src="js/angular.min.js"></script>
     <script src="js/app.js"></script>
     <script src="js/Chart.min.js"></script>
@@ -10,16 +15,49 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-73629036-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
   </head>
 
 <body>
     <div class="container">  
         <div id="header">
-            <a href="http://www.karldiab.com"><img align="right" src="images/logo75.png" alt="KarlDiab Logo"/></a>
+            <a href="http://www.karldiab.com"><img align="right" src="images/logo75.png" alt="KarlDiab Logo" id="KDLogo"/></a>
             <h1>Bitcoin Mining Calculator</h1>
         </div>
+        <div id="desktopAdBanner">
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <!-- BTCCalcBanner -->
+            <ins class="adsbygoogle"
+                style="display:inline-block;width:728px;height:90px"
+                data-ad-client="ca-pub-7592216756911114"
+                data-ad-slot="7800082185"></ins>
+            <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+        <div id="mobileAdBanner">
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <!-- BTCBannerMobile -->
+            <ins class="adsbygoogle"
+                style="display:block"
+                data-ad-client="ca-pub-7592216756911114"
+                data-ad-slot="6323348984"
+                data-ad-format="auto"></ins>
+            <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
         <div class="row">
-            <div class="animated zoomInRight col-md-6">
+            <div class="animated zoomInRight col-md-5">
                     <table>
                         <tr>
                             <th>Your Hashrate:</th>
@@ -183,20 +221,34 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col-md-6 animated fadeIn" id="chartContainer">
+            <div class="col-md-5 animated fadeIn" id="chartContainer">
                 <div id="chartNotReady" ng-hide="myLineChart">
                     <h3>Enter hashrate data for responsive chart!</h3>
                 </div>
                 <div  ng-show="myLineChart">
                 <h3>Total Profit ({{currency}})</h3>
-                <canvas id="myChart" width="450" height="450"></canvas><br/>
+                <canvas id="myChart" width="300" height="400"></canvas><br/>
                 Time Frame:
                 <input type="number" ng-model="timeFrame" id="axisChange" ng-init="timeFrame = 12" ng-change="changeAxis()"/> Months
                 </div>
             </div>
+            <div class="col-md-2">
+				<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+				<!-- BTCSideBanner -->
+				<ins class="adsbygoogle"
+					 style="display:block"
+					 data-ad-client="ca-pub-7592216756911114"
+					 data-ad-slot="9276815388"
+					 data-ad-format="auto"></ins>
+				<script>
+				(adsbygoogle = window.adsbygoogle || []).push({});
+				</script>
+            </div>
         </div>
         <div id="authorInfo">
-
+                <div style="text-align: center; padding: 5 px;">
+					<a href="http://www.karldiab.com/EthereumMiningCalculator"><button class="btn btn-primary btn-md">Ethereum Mining Calculator</button></a>
+                </div>
             <strong>Written by Karl Diab using AngularJS and Chart.js. The utility fetches live 
                 Bitcoin network & price data from bitcoin.toshi.io and bitcoinaverage.com</strong></br>
             <a href="https://www.youtube.com/watch?v=Um63OQz3bjo"><button class="btn btn-warning btn-sm">What Is Bitcoin?</button></a>

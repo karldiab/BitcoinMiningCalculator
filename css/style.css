@@ -5,7 +5,9 @@ h2,
 h1 {
     text-align: center;
 }
-
+input {
+    width: 50%;
+}
 table {
     border-collapse: collapse;
     border: 1px white solid;
@@ -21,6 +23,27 @@ th {
 table {
     margin: 10px;
 }
+#mobileAdBanner {
+    display: none;
+}
+#desktopAdBanner {
+    display: block;
+    text-align: center;
+    
+}
+@media screen 
+and (max-width : 500px) {
+    #mobileAdBanner {
+        display: block;
+        text-align: center;
+    }
+    #desktopAdBanner {
+        display: none;
+    }
+    #KDLogo{
+      display: none;
+    }
+}
 td {
     border: 1px white solid;
 }
@@ -35,11 +58,12 @@ td {
 }
 #header {
   height: 75px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 #authorInfo {
     text-align: center;
-    padding-top: 20px;
+    padding: 10px;
+    
 }
 #axisChange {
     width: 50px;
