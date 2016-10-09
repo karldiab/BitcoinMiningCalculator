@@ -19,6 +19,8 @@ th {
     background: #ccc;
     text-align: right;
     border: 1px white solid;
+    font-weight: bold;
+    font-size: 14pt;
 }
 table {
     margin: 10px;

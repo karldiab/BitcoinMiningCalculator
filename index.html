@@ -10,8 +10,10 @@
     <script src="js/angular.min.js"></script>
     <script src="js/app.js"></script>
     <script src="js/Chart.min.js"></script>
+    <script src="jquery.localize.min.js"></script>
     <link rel="stylesheet" href="css/animate.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <script src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
@@ -33,28 +35,15 @@
             <a href="http://www.karldiab.com"><img align="right" src="images/logo75.png" alt="KarlDiab Logo" id="KDLogo"/></a>
             <h1>Bitcoin Mining Calculator</h1>
         </div>
-        <div id="desktopAdBanner">
-            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-            <!-- BTCCalcBanner -->
-            <ins class="adsbygoogle"
-                style="display:inline-block;width:728px;height:90px"
-                data-ad-client="ca-pub-7592216756911114"
-                data-ad-slot="7800082185"></ins>
-            <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
+        <div id="desktopAdBanner" data-localize="desktopAdBanner">
+            <iframe src='http://kiboplatform.net/_alldata/files/tools/banners/en/INSTANT/HTML5/728x90_kibo/728x90_kibo_Canvas.html?nickname=peretzz' width='728' height='90' style='border: 0; overflow: hidden;' scrolling='no'></iframe>
         </div>
-        <div id="mobileAdBanner">
-            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-            <!-- BTCBannerMobile -->
-            <ins class="adsbygoogle"
-                style="display:block"
-                data-ad-client="ca-pub-7592216756911114"
-                data-ad-slot="6323348984"
-                data-ad-format="auto"></ins>
-            <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
+        <script>
+            // In a browser where the language is set to French
+            $("[data-localize]").localize("desktop")
+        </script>
+        <div id="mobileAdBanner" data-localize="mobileAdBanner">
+            <iframe src='http://kiboplatform.net/_alldata/files/tools/banners/en/INSTANT/HTML5/310x65_kibo/310x65_kibo_Canvas.html?nickname=peretzz' width='310' height='65' style='border: 0; overflow: hidden;' scrolling='no'></iframe>
         </div>
         <div class="row">
             <div class="animated zoomInRight col-md-5">
